@@ -1,0 +1,19 @@
+/* Slide 2: aproveita melhor o espaço entre a marca e o conteúdo principal. */
+.slide-about--hero .slide-about__hero-copy {
+  margin-top: 104px;
+}
+
+.slide-about--hero .slide-about__hero-partners-highlight {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.slide-about--hero .slide-about__hero-partners-highlight > div {
+  gap: 30px;
+}
+
+.slide-about--hero .slide-about__hero-partners-highlight > div img {
+  width: auto;
+  height: 58px;
+}
