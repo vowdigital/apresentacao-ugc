@@ -1,6 +1,6 @@
 # Vow Digital — Apresentação comercial UGC
 
-Apresentação de vendas em React + TypeScript (Vite), com quatorze slides e foco em conteúdo UGC. O palco preenche a janela inteira; a exportação em PDF mantém o formato 16:9.
+Apresentação de vendas em React + TypeScript (Vite), com quinze slides e foco em conteúdo UGC. O palco preenche a janela inteira; a exportação em PDF mantém o formato 16:9.
 
 ## Rodar localmente
 

@@ -39,12 +39,14 @@ function SlideTransition({
 
     currentRef.current = { slide, number };
     setLeaving(previous);
-    const timeout = window.setTimeout(() => setLeaving(null), 480);
+    const isPlanWelcome = previous.slide.id === 'fechamento' && slide.id === 'valores';
+    const timeout = window.setTimeout(() => setLeaving(null), isPlanWelcome ? 760 : 480);
     return () => window.clearTimeout(timeout);
   }, [slide, number]);
 
+  const transitionVariant = leaving ? `deck__slide-transition--${leaving.slide.id}-to-${slide.id}` : '';
   return (
-    <div className="deck__slide-transition">
+    <div className={`deck__slide-transition ${transitionVariant}`}>
       {leaving && (
         <div
           key={`leave-${leaving.slide.id}`}

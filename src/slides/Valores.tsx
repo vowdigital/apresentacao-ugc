@@ -19,7 +19,7 @@ const plans = [
       'Sucesso do cliente',
     ],
     bonus: 'No pagamento à vista: Loja Virtual completa por R$ 2.499',
-    image: assets.jordan,
+    image: assets.muie,
   },
   {
     id: 'plano-grow',

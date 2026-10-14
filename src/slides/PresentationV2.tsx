@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ArrowUpRight, Pause, Play } from 'lucide-react';
+import { type ReactNode } from 'react';
 import type { SlideDefinition } from '../deck/types';
 import { assets } from '../deck/assets';
 import { planoStart, planoGrow, planoPro } from './Valores';
@@ -18,43 +17,6 @@ function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="eyebrow">{children}</p>;
 }
 
-function PlanLink({ children = 'Conhecer os planos' }: { children?: ReactNode }) {
-  return <a className="plan-link" href="#/valores">{children}<ArrowUpRight size={27} aria-hidden="true" /></a>;
-}
-
-const examples = [
-  { name: 'Gi', label: 'Produto em uso', video: assets.ugcGi, poster: image('ugc-gi-poster.jpg') },
-  { name: 'Sofi', label: 'Experiência real', video: assets.ugcSofi, poster: image('ugc-sofi-poster.jpg') },
-  { name: 'Naeli', label: 'Demonstração', video: assets.ugcNaeli, poster: image('ugc-naeli-poster.jpg') },
-  { name: 'Lui', label: 'Conversa direta', video: assets.ugcLui, poster: image('ugc-lui-poster.jpg') },
-] as const;
-
-function VideoGallery() {
-  const [active, setActive] = useState<string | null>(null);
-  const refs = useRef<Record<string, HTMLVideoElement | null>>({});
-  useEffect(() => {
-    examples.forEach(({ name }) => {
-      const video = refs.current[name];
-      if (!video) return;
-      if (active === name) void video.play().catch(() => setActive(null));
-      else video.pause();
-    });
-  }, [active]);
-
-  return <div className="video-gallery">{examples.map(({ name, label, video, poster }) =>
-    <article className="video-tile" key={name}>
-      <div className="video-tile__media">
-        <img className="video-tile__print" src={poster} alt="" aria-hidden="true" />
-        <video ref={(node) => { refs.current[name] = node; }} src={video} poster={poster} preload="none" playsInline onEnded={() => setActive(null)} aria-label={`Vídeo UGC com ${name}`} />
-        <button type="button" onClick={() => setActive((current) => current === name ? null : name)} aria-label={active === name ? `Pausar vídeo de ${name}` : `Reproduzir vídeo de ${name}`}>
-          {active === name ? <Pause size={27} fill="currentColor" aria-hidden="true" /> : <Play size={27} fill="currentColor" aria-hidden="true" />}
-        </button>
-      </div>
-      <div className="video-tile__caption"><strong>{name}</strong><span>{label}</span></div>
-    </article>
-  )}</div>;
-}
-
 const planSlides: SlideDefinition[] = [planoStart, planoGrow, planoPro].map((slide) => ({
   ...slide,
   footer: false,
@@ -68,7 +30,6 @@ const methodSlides: SlideDefinition[] = [
       <div className="method-cover__texture"><img src={assets.xadrez} alt="" aria-hidden="true" /></div>
       <Top label="ESTRATÉGIA DE VENDA" />
       <div className="method-cover__copy"><Eyebrow>MÉTODO EXCLUSIVO VOW DIGITAL</Eyebrow><h2>Método <em>E3’s</em></h2><p>Três movimentos para transformar estratégia em venda.</p></div>
-      <div className="method-cover__figure"><img src={assets.woman} alt="Profissional apresentando uma solução digital" /></div>
       <div className="method-cover__footer"><strong>Estratégia · Estrutura · Escala</strong><span>01 / 04</span></div>
     </div>,
   },
@@ -118,60 +79,68 @@ export const presentationSlides: SlideDefinition[] = [
   {
     id: 'problema', title: 'Sobre nós', tone: 'light',
     notes: 'Apresente a Vow Digital como parceira de crescimento, conectando marketing, tecnologia e estratégia comercial para gerar impacto consistente.',
-    render: () => <div className="presentation slide-about">
+    render: () => <div className="presentation slide-about slide-about--hero">
+      <div className="slide-about__background"><img src={assets.mockupStores} alt="Vitrines digitais em diferentes lojas e celulares" /></div>
       <Top label="VOW DIGITAL / SOBRE NÓS" />
-      <div className="slide-about__heading"><Eyebrow>Sobre nós</Eyebrow><h2>Conectamos as peças que fazem uma empresa <em>crescer.</em></h2></div>
-      <div className="slide-about__copy">
-        <p className="slide-about__lead">A Vow Digital conecta marketing, tecnologia e estratégia comercial para ajudar empresas a vender mais e crescer com consistência.</p>
-        <p>Atuamos em diferentes frentes do crescimento digital, integrando tráfego pago, produção de conteúdo e UGC, desenvolvimento de lojas virtuais e planejamento estratégico de vendas online.</p>
-        <p>Mais do que executar ações isoladas, buscamos entender o que cada negócio precisa para avançar, identificar oportunidades e transformar estratégia em iniciativas que gerem impacto comercial.</p>
-        <p className="slide-about__statement">Nosso trabalho é conectar as peças que fazem uma empresa crescer.</p>
-      </div>
-      <div className="slide-about__visual"><img className="slide-about__stores" src={assets.mockupStores} alt="Vitrines digitais em diferentes lojas e celulares" /><p>Somos certificados por gigantes da tecnologia e publicidade, como Google e Meta, representando apenas 3% das empresas reconhecidas no Brasil.</p><div className="slide-about__logos"><img src={assets.googlePartners} alt="Google Partners" /><img src={assets.metaBusiness} alt="Meta Business Partner" /></div></div>
-      <div className="slide-about__stats"><div><strong>+500</strong><span>Negócios acelerados</span></div><div><strong>+7 anos</strong><span>De atuação</span></div></div>
+      <div className="slide-about__hero-copy"><Eyebrow>Sobre nós</Eyebrow><h2>Conectamos as peças<br />que fazem uma empresa <em>crescer.</em></h2><p>A Vow Digital une marketing, tecnologia e estratégia comercial para ajudar empresas a vender mais e crescer com consistência.</p><div className="slide-about__hero-stats"><div><strong>+500</strong><span>Negócios acelerados</span></div><div><strong>+7 anos</strong><span>De atuação</span></div></div><div className="slide-about__hero-partners-highlight"><strong>Estamos entre os 3% de empresas reconhecidas por Google e Meta.</strong><div><img src={assets.googlePartners} alt="Google Partners" /><img src={assets.metaBusiness} alt="Meta Business Partner" /></div></div></div>
+      <div className="slide-about__hero-footer"><span>ESTRATÉGIA · CONTEÚDO · CRESCIMENTO</span></div>
     </div>,
   },
   ...methodSlides,
   {
-    id: 'oportunidade', title: 'O que o UGC faz', tone: 'light',
-    notes: 'Explique com um produto do cliente: o creator mostra o uso, compartilha a experiência e responde dúvidas em linguagem natural. Cada formato pode virar conteúdo orgânico ou anúncio.',
-    render: () => <div className="presentation slide-opportunity"><Top label="O QUE O UGC ENTREGA" />
-      <div className="slide-opportunity__copy"><Eyebrow>UMA IDEIA SIMPLES</Eyebrow><h2>O produto sai da vitrine.<br /><em>Entra na vida real.</em></h2><p>Creators mostram o produto em uso, com a linguagem de quem compra.</p></div>
-      <div className="slide-opportunity__media"><img src={image('ugc-gi-poster.jpg')} alt="Creator mostrando um produto" /><img src={image('ugc-sofi-poster.jpg')} alt="Creator relatando experiência com produto" /><img src={image('ugc-bruno-poster.jpg')} alt="Creator falando com a câmera" /></div>
-      <div className="slide-opportunity__words"><span>Mostra</span><span>Conecta</span><span>Responde</span></div>
+    id: 'oportunidade', title: 'Anúncios UGC', tone: 'light',
+    notes: 'Apresente os anúncios UGC como conteúdos produzidos por creators reais, com diferentes estilos e abordagens, pensados para chamar atenção e melhorar a performance das campanhas.',
+    render: () => <div className="presentation slide-opportunity slide-opportunity--ugc">
+      <div className="slide-opportunity__video-wall" aria-hidden="true"><video src={assets.ugcGi} poster={image('ugc-gi-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /><video src={assets.ugcSofi} poster={image('ugc-sofi-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /><video src={assets.ugcLui} poster={image('ugc-lui-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /></div>
+      <Top label="ANÚNCIOS UGC" />
+      <div className="slide-opportunity__copy"><Eyebrow>CONTEÚDO QUE PERFORMA</Eyebrow><h2>Anúncios <em>UGC</em></h2><p>Conteúdos produzidos por uma comunidade de creators, com diferentes estilos e abordagens, pensados para gerar atenção e performance nos seus anúncios.</p></div>
+      <div className="slide-opportunity__footer"><strong>Conteúdo real. Mais atenção. Melhor performance.</strong><span>CREATORS · ESTILOS · ABORDAGENS</span></div>
     </div>,
   },
   {
-    id: 'ugc-creators', title: 'Exemplos de UGC', tone: 'dark',
-    notes: 'Reproduza um ou dois exemplos conforme o segmento do cliente. Os vídeos começam pausados. Explore a linguagem natural e como diferentes creators podem abordar o mesmo produto.',
-    render: () => <div className="presentation slide-examples"><Top label="UGC NA PRÁTICA" light />
-      <div className="slide-examples__heading"><div><Eyebrow>EXEMPLOS REAIS</Eyebrow><h2>Veja a linguagem <em>de perto.</em></h2></div><p>Clique para assistir aos vídeos.</p></div>
-      <VideoGallery />
+    id: 'trafego-pago', title: 'Tráfego pago', tone: 'light',
+    notes: 'Apresente o tráfego pago como uma operação contínua de estratégia, gestão e otimização para colocar a marca diante das pessoas certas e transformar tráfego em oportunidades de venda.',
+    render: () => <div className="presentation slide-traffic">
+      <div className="slide-traffic__video" aria-hidden="true"><video src={assets.scaleVideo} poster={image('ugc-leo-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /></div>
+      <Top label="SERVIÇOS / 02 DE 04" />
+      <div className="slide-traffic__copy"><Eyebrow>02 / 04</Eyebrow><h2>Tráfego <em>Pago</em></h2><p>Estratégia, gestão e otimização contínua das campanhas para colocar sua marca na frente das pessoas certas, controlar o investimento e transformar tráfego em oportunidades de venda.</p></div>
+      <div className="slide-traffic__footer"><strong>Mais precisão para investir. Mais oportunidades para vender.</strong><span>ESTRATÉGIA · GESTÃO · OTIMIZAÇÃO</span></div>
     </div>,
   },
   {
-    id: 'processo', title: 'Como produzimos', tone: 'light',
-    notes: 'A Vow conduz o processo: entende público e objetivo, define briefing e creators, coordena a produção, edita variações e aprende com os resultados. A composição exata depende do plano contratado.',
-    render: () => <div className="presentation slide-process"><Top label="NOSSO PROCESSO" />
-      <div className="slide-process__heading"><Eyebrow>DO BRIEFING AO CRIATIVO</Eyebrow><h2>Conteúdo com <em>direção.</em></h2></div>
-      <div className="process-grid"><article><img src={image('ugc-mu-poster.jpg')} alt="Equipe da Vow planejando em torno de um notebook" /><div><span>01 / ESTRATÉGIA</span><h3>Planejamos</h3><p>Objetivo, produto e mensagem.</p></div></article><article><img src={image('ugc-bruno-poster.jpg')} alt="Creator em gravação de vídeo" /><div><span>02 / PRODUÇÃO</span><h3>Produzimos</h3><p>Creators, roteiro e gravação.</p></div></article><article><img src={image('ugc-leo-poster.jpg')} alt="Equipe da Vow analisando uma campanha" /><div><span>03 / EVOLUÇÃO</span><h3>Evoluímos</h3><p>Edição, variações e otimização.</p></div></article></div>
+    id: 'ecommerce', title: 'E-commerce, sites e páginas de vendas', tone: 'light',
+    notes: 'Apresente os projetos digitais como estruturas pensadas para atrair, envolver e converter, aproveitando melhor cada oportunidade gerada pelo tráfego.',
+    render: () => <div className="presentation slide-ecommerce">
+      <div className="slide-traffic__video" aria-hidden="true"><video src={assets.ugcBruno} poster={image('ugc-bruno-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /></div>
+      <Top label="SERVIÇOS / 03 DE 04" />
+      <div className="slide-ecommerce__copy"><Eyebrow>03 / 04</Eyebrow><h2>E-commerce, sites<br />e páginas de <em>vendas.</em></h2><p>Projetos desenvolvidos para atrair, envolver e converter, com estrutura otimizada para aproveitar ao máximo cada oportunidade gerada pelo tráfego.</p></div>
+      <div className="slide-ecommerce__footer"><strong>Estrutura que transforma tráfego em oportunidade.</strong><span>ATRAIR · ENVOLVER · CONVERTER</span></div>
     </div>,
   },
   {
-    id: 'vow', title: 'Por que a Vow', tone: 'light',
-    notes: 'Posicione a Vow como uma operação que conecta criação de UGC com distribuição e acompanhamento. Não prometa resultados específicos: conteúdo, mídia e ajustes trabalham juntos dentro do escopo contratado.',
-    render: () => <div className="presentation slide-vow"><Top label="VOW DIGITAL" />
-      <div className="slide-vow__copy"><Eyebrow>MAIS QUE UM VÍDEO BONITO</Eyebrow><h2>UGC, mídia e estratégia <em>na mesma direção.</em></h2><p>Da ideia ao criativo. Do criativo à campanha.</p><PlanLink /></div>
-      <div className="slide-vow__media"><img className="slide-vow__team" src={image('ugc-mu-poster.jpg')} alt="Equipe da Vow trabalhando em um projeto" /><img className="slide-vow__creator" src={image('ugc-sofia-poster.jpg')} alt="Creator apresentando um produto" /></div>
+    id: 'cro', title: 'CRO — Otimização para conversão', tone: 'light',
+    notes: 'Apresente o CRO como a etapa que melhora o aproveitamento do tráfego existente: analisamos o comportamento, ajustamos páginas, ofertas e jornadas para gerar mais leads, vendas e oportunidades.',
+    render: () => <div className="presentation slide-cro">
+      <div className="slide-traffic__video" aria-hidden="true"><video src={assets.strategyVideo} poster={image('ugc-mu-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /></div>
+      <Top label="SERVIÇOS / 04 DE 04" />
+      <div className="slide-cro__copy"><Eyebrow>04 / 04</Eyebrow><h2>CRO — Otimização<br />para <em>conversão.</em></h2><p>Analisamos o comportamento dos seus visitantes e otimizamos páginas, ofertas e jornadas para transformar mais acessos em leads, vendas e oportunidades, aproveitando melhor o tráfego que você já gera.</p></div>
+      <div className="slide-cro__footer"><strong>Mais conversão com o tráfego que você já gera.</strong><span>ANÁLISE · OTIMIZAÇÃO · CONVERSÃO</span></div>
     </div>,
   },
-  ...planSlides,
   {
     id: 'fechamento', title: 'Próximo passo', tone: 'dark',
     notes: 'Pergunte qual objetivo é prioritário e qual plano faz sentido agora. Proponha alinhar produto, público e canal principal para iniciar o planejamento de UGC.',
     render: () => <div className="presentation slide-closing"><Top label="VAMOS CRIAR JUNTOS?" light />
-      <div className="slide-closing__copy"><Eyebrow>PRÓXIMO PASSO</Eyebrow><h2>O próximo conteúdo pode começar <em>com a sua marca.</em></h2><p>Escolhemos o plano. Definimos a direção. Colocamos a produção em movimento.</p><PlanLink>Rever os planos</PlanLink></div>
-      <div className="slide-closing__media"><img src={image('ugc-sofia-poster.jpg')} alt="Creator apresentando um produto" /><img src={image('ugc-lui-poster.jpg')} alt="Creator falando sobre um produto" /></div>
+      <div className="slide-closing__copy"><Eyebrow>PRÓXIMO PASSO</Eyebrow><h2>O próximo conteúdo pode começar <em>com a sua marca.</em></h2><p>Escolhemos o plano. Definimos a direção. Colocamos a produção em movimento.</p></div>
+    </div>,
+  },
+  ...planSlides,
+  {
+    id: 'encerramento', title: 'Encerramento', tone: 'dark',
+    notes: 'Feche a apresentação reforçando que o próximo passo é transformar a estratégia em movimento e alinhar o melhor plano para a marca.',
+    render: () => <div className="presentation slide-final"><Top label="ENCERRAMENTO" light />
+      <div className="slide-final__copy"><Eyebrow>VAMOS COMEÇAR?</Eyebrow><h2>Agora é hora de colocar sua marca em <em>movimento.</em></h2><p>Estratégia, conteúdo e performance para transformar atenção em crescimento.</p></div>
+      <div className="slide-final__footer">VOW DIGITAL · CONTEÚDO · ESTRATÉGIA · CRESCIMENTO</div>
     </div>,
   },
 ];
