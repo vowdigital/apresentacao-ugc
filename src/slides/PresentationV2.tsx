@@ -24,16 +24,12 @@ type StageSlideProps = {
   subtitle: string;
   paragraphs: string[];
   closing?: string;
-  background: string;
-  alt: string;
   lightBackground?: boolean;
-  containBackground?: boolean;
 };
 
-function StageSlide({ number, title, subtitle, paragraphs, closing, background, alt, lightBackground = false, containBackground = false }: StageSlideProps) {
+function StageSlide({ number, title, subtitle, paragraphs, closing, lightBackground = false }: StageSlideProps) {
   return (
-    <div className={`presentation stage-slide${lightBackground ? ' stage-slide--light' : ''}${containBackground ? ' stage-slide--contain' : ''}`}>
-      <div className="stage-slide__background"><img src={background} alt={alt} /></div>
+    <div className={`presentation stage-slide${lightBackground ? ' stage-slide--light' : ''}`}>
       <Top label={`COMO FAREMOS? / ${number}`} light={!lightBackground} />
       <div className="stage-slide__content">
         <Eyebrow>{number}</Eyebrow>
@@ -106,10 +102,7 @@ const methodSlides: SlideDefinition[] = [
       number="01"
       title="Estratégia"
       subtitle="Diagnóstico e planejamento"
-      background={assets.horse}
-      alt="Peça de cavalo roxa representando estratégia e tomada de decisão"
       lightBackground
-      containBackground
       paragraphs={[
         'Começamos com um onboarding estratégico para entender profundamente o seu negócio, seus objetivos comerciais, seu público ideal, seus indicadores atuais e as principais oportunidades de crescimento.',
         'Com base nesse diagnóstico, desenvolvemos um roadmap estratégico personalizado, com prioridades, ações e direcionamentos claros, apresentado visualmente para alinhar o planejamento antes de iniciar a execução.',
@@ -123,8 +116,6 @@ const methodSlides: SlideDefinition[] = [
       number="02"
       title="Estrutura"
       subtitle="Implementação e execução"
-      background={assets.estrutura}
-      alt="Estrutura roxa em camadas representando uma operação integrada"
       lightBackground
       paragraphs={[
         'Com o planejamento definido, nossa equipe entra em ação para construir a estrutura necessária para atrair, converter e conquistar clientes.',
@@ -140,8 +131,6 @@ const methodSlides: SlideDefinition[] = [
       number="03"
       title="Escala"
       subtitle="Gestão e otimização contínua"
-      background={assets.sobe}
-      alt="Gráfico roxo de crescimento com barras e seta ascendente"
       lightBackground
       paragraphs={[
         'Acompanhamos os indicadores, analisamos os resultados e identificamos oportunidades para aprimorar continuamente a operação.',
