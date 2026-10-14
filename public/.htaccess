@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /apresentacao-ugc/
+
+  # Mantém o acesso direto a arquivos e diretórios existentes.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Encaminha as demais requisições para a SPA.
+  RewriteRule ^ index.html [L]
+</IfModule>
