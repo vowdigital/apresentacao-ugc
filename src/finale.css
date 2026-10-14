@@ -1,0 +1,65 @@
+.deck--finale .deck__viewport {
+  background: var(--violet);
+}
+
+.deck--finale .deck__stage {
+  box-shadow: none;
+}
+
+.deck--finale .slide-final {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  background: var(--violet);
+}
+
+.deck--finale .slide-final .slide-top {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: block;
+}
+
+.deck--finale .slide-final .slide-top .brand {
+  position: absolute;
+  top: 70px;
+  left: 100px;
+  width: 207px;
+  height: 58px;
+  object-fit: contain;
+  object-position: left center;
+  transform-origin: left top;
+  animation: closing-logo-finale 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  will-change: transform;
+}
+
+.deck--finale .slide-final .slide-top > span,
+.deck--finale .slide-final__copy,
+.deck--finale .slide-final__footer {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 600ms ease, visibility 0s linear 600ms;
+}
+
+@keyframes closing-logo-finale {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(500px, 370px, 0) scale(3.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck--finale .slide-final .slide-top .brand {
+    animation: none;
+    transform: translate3d(500px, 370px, 0) scale(3.45);
+  }
+
+  .deck--finale .slide-final .slide-top > span,
+  .deck--finale .slide-final__copy,
+  .deck--finale .slide-final__footer {
+    transition: none;
+  }
+}

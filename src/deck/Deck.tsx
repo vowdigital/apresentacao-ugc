@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Maximize2, Minimize2, NotebookPen } from 'lucide-react';
 import { Footer } from '../components/Footer';
 import type { SlideDefinition } from './types';
 import { useDeckNavigation } from './useDeckNavigation';
@@ -84,33 +83,34 @@ export function Deck({ slides }: DeckProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const { scaleX, scaleY } = useStageScale(viewportRef);
   const [showNotes, setShowNotes] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  useEffect(() => {
-    const syncFullscreenState = () => setIsFullscreen(Boolean(document.fullscreenElement));
-    syncFullscreenState();
-    document.addEventListener('fullscreenchange', syncFullscreenState);
-    return () => document.removeEventListener('fullscreenchange', syncFullscreenState);
-  }, []);
+  const [isFinale, setIsFinale] = useState(false);
+  const total = slides.length;
 
   const toggleNotes = useCallback(() => setShowNotes((v) => !v), []);
   const toggleFullscreen = useCallback(() => {
     if (document.fullscreenElement) void document.exitFullscreen();
     else if (document.documentElement.requestFullscreen) void document.documentElement.requestFullscreen();
   }, []);
+  const triggerFinale = useCallback(() => setIsFinale(true), []);
 
-  const { index, goTo, next, prev, direction, isFirst, isLast } = useDeckNavigation(slides, {
+  const { index, direction } = useDeckNavigation(slides, {
     onToggleNotes: toggleNotes,
     onToggleFullscreen: toggleFullscreen,
+    onReachedEnd: triggerFinale,
   });
+
+  useEffect(() => {
+    if (index !== total - 1) setIsFinale(false);
+  }, [index, total]);
 
   if (isPrint) return <PrintDeck slides={slides} />;
 
   const slide = slides[index];
-  const total = slides.length;
-
   return (
-    <main className={`deck deck--${slide.tone}`} aria-label="Apresentação comercial Vow Digital">
+    <main
+      className={`deck deck--${slide.tone}${isFinale && index === total - 1 ? ' deck--finale' : ''}`}
+      aria-label="Apresentação comercial Vow Digital"
+    >
       <div className="deck__viewport" ref={viewportRef}>
         <div
           className="deck__stage"
@@ -123,46 +123,6 @@ export function Deck({ slides }: DeckProps) {
           <SlideTransition slide={slide} number={index + 1} total={total} direction={direction} />
         </div>
       </div>
-
-      <nav className="deck__controls" aria-label="Navegação da apresentação">
-        <button type="button" onClick={prev} disabled={isFirst} aria-label="Slide anterior">
-          <ChevronLeft size={20} />
-        </button>
-        <span className="deck__counter" aria-live="polite">
-          {index + 1} / {total}
-        </span>
-        <button type="button" onClick={next} disabled={isLast} aria-label="Próximo slide">
-          <ChevronRight size={20} />
-        </button>
-        <span className="deck__divider" />
-        <button type="button" onClick={toggleNotes} aria-pressed={showNotes} aria-label="Notas do apresentador (N)">
-          <NotebookPen size={18} />
-        </button>
-        <button
-          type="button"
-          onClick={toggleFullscreen}
-          aria-pressed={isFullscreen}
-          aria-label={isFullscreen ? 'Sair da tela cheia (F)' : 'Entrar em tela cheia (F)'}
-          title={isFullscreen ? 'Sair da tela cheia (F)' : 'Entrar em tela cheia (F)'}
-        >
-          {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-        </button>
-      </nav>
-
-      <nav className="deck__progress" aria-label="Progresso da apresentação">
-        {slides.map((s, i) => (
-          <button
-            key={s.id}
-            type="button"
-            tabIndex={0}
-            className={i === index ? 'is-active' : i < index ? 'is-done' : undefined}
-            onClick={() => goTo(i)}
-            aria-label={`Ir para o slide ${i + 1}: ${s.title}`}
-            aria-current={i === index ? 'step' : undefined}
-            title={s.title}
-          />
-        ))}
-      </nav>
 
       {showNotes && (
         <aside className="deck__notes" aria-label="Notas do apresentador">

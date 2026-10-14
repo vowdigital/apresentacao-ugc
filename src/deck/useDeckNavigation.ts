@@ -13,10 +13,11 @@ function indexFromHash(slides: SlideDefinition[]): number {
 interface Options {
   onToggleNotes: () => void;
   onToggleFullscreen: () => void;
+  onReachedEnd?: () => void;
 }
 
 /** Navegação por teclado, hash da URL e gesto de swipe. */
-export function useDeckNavigation(slides: SlideDefinition[], { onToggleNotes, onToggleFullscreen }: Options) {
+export function useDeckNavigation(slides: SlideDefinition[], { onToggleNotes, onToggleFullscreen, onReachedEnd }: Options) {
   const initialIndex = indexFromHash(slides);
   const indexRef = useRef(initialIndex);
   const [index, setIndex] = useState(initialIndex);
@@ -31,7 +32,13 @@ export function useDeckNavigation(slides: SlideDefinition[], { onToggleNotes, on
     setDirection(target > current ? 'forward' : 'backward');
     setIndex(target);
   }, [last]);
-  const next = useCallback(() => goTo(indexRef.current + 1), [goTo]);
+  const next = useCallback(() => {
+    if (indexRef.current >= last) {
+      onReachedEnd?.();
+      return;
+    }
+    goTo(indexRef.current + 1);
+  }, [goTo, last, onReachedEnd]);
   const prev = useCallback(() => goTo(indexRef.current - 1), [goTo]);
 
   // Mantém a URL sincronizada para poder compartilhar um slide específico.
