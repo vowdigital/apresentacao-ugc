@@ -5,6 +5,7 @@ import { slides } from './slides';
 import './finale.css';
 import './presentation-v2.css';
 import './presentation-overrides.css';
+import './errors.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

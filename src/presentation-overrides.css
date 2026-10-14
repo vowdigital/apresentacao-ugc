@@ -17,3 +17,25 @@
   width: auto;
   height: 58px;
 }
+
+/* Slide 7: deixa o gi.webm mais visível sem perder contraste na copy. */
+.slide-opportunity--ugc::after {
+  background: linear-gradient(
+    90deg,
+    #f7f3fb 0%,
+    #f7f3fb 27%,
+    rgba(247, 243, 251, 0.82) 42%,
+    rgba(247, 243, 251, 0.16) 61%,
+    transparent 100%
+  );
+}
+
+/* Slide 8: mostra melhor a legenda na parte inferior do vídeo. */
+.slide-traffic .slide-traffic__video video {
+  object-position: center 42%;
+}
+
+/* Slide 10: revela mais da legenda no enquadramento do vídeo de CRO. */
+.slide-cro__video-wall video {
+  object-position: center 62%;
+}

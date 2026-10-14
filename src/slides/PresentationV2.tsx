@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 import type { SlideDefinition } from '../deck/types';
 import { assets } from '../deck/assets';
 import { planoStart, planoGrow, planoPro } from './Valores';
+import { errosCarousel, precoContinuar } from './ErrosCrescimento';
 
 const image = (name: string) => `${import.meta.env.BASE_URL}images/${name}`;
 
@@ -15,6 +16,36 @@ function Top({ label, light = false }: { label: string; light?: boolean }) {
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="eyebrow">{children}</p>;
+}
+
+type StageSlideProps = {
+  number: string;
+  title: string;
+  subtitle: string;
+  paragraphs: string[];
+  closing?: string;
+  background: string;
+  alt: string;
+  lightBackground?: boolean;
+  containBackground?: boolean;
+};
+
+function StageSlide({ number, title, subtitle, paragraphs, closing, background, alt, lightBackground = false, containBackground = false }: StageSlideProps) {
+  return (
+    <div className={`presentation stage-slide${lightBackground ? ' stage-slide--light' : ''}${containBackground ? ' stage-slide--contain' : ''}`}>
+      <div className="stage-slide__background"><img src={background} alt={alt} /></div>
+      <Top label={`COMO FAREMOS? / ${number}`} light={!lightBackground} />
+      <div className="stage-slide__content">
+        <Eyebrow>{number}</Eyebrow>
+        <h2>{title}</h2>
+        <p className="stage-slide__subtitle">{subtitle}</p>
+        <div className="stage-slide__body">
+          {paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </div>
+        {closing && <p className="stage-slide__closing">{closing}</p>}
+      </div>
+    </div>
+  );
 }
 
 const planSlides: SlideDefinition[] = [planoStart, planoGrow, planoPro].map((slide) => ({
@@ -49,7 +80,7 @@ const methodSlides: SlideDefinition[] = [
     render: () => <div className="presentation method-detail method-detail--structure">
       <div className="method-detail__background"><img src={assets.jordan} alt="Loja virtual apresentada em um notebook" /></div>
       <Top label="MÉTODO E3’S / 02" />
-      <div className="method-detail__content"><Eyebrow>02 / ESTRUTURA</Eyebrow><h2>Uma estratégia só gera resultados quando existe uma <em>estrutura preparada.</em></h2><p>Uma estratégia só gera resultados quando existe uma estrutura preparada para executá-la. Conectamos conteúdo, UGC com creators reais, tráfego pago, lojas virtuais e ferramentas comerciais em uma operação integrada, onde cada ação contribui para atrair clientes e gerar vendas.</p><div className="method-detail__closing"><span>Estrutura</span><strong>Não basta ter as ferramentas. É preciso fazê-las trabalhar em conjunto.</strong></div></div>
+      <div className="method-detail__content"><Eyebrow>02 / ESTRUTURA</Eyebrow><h2>Uma estratégia só gera resultados quando existe uma <em>estrutura preparada para executá-la.</em></h2><p>Conectamos conteúdo, UGC com creators reais, tráfego pago, lojas virtuais e ferramentas comerciais em uma operação integrada, onde cada ação contribui para atrair clientes e gerar vendas.</p><div className="method-detail__closing"><span>Estrutura</span><strong>Não basta ter as ferramentas. É preciso fazê-las trabalhar em conjunto.</strong></div></div>
       <div className="method-detail__index">02 <span>/ 03</span></div>
     </div>,
   },
@@ -59,8 +90,74 @@ const methodSlides: SlideDefinition[] = [
     render: () => <div className="presentation method-detail method-detail--scale">
       <div className="method-detail__background"><img src={assets.nuvemshopPanelPurple} alt="Painel de vendas com indicadores em roxo" /></div>
       <Top label="MÉTODO E3’S / 03" />
-      <div className="method-detail__content"><Eyebrow>03 / ESCALA</Eyebrow><h2>Crescer é <em>potencializar o que funciona.</em></h2><p>Crescer não é apenas investir mais, mas potencializar o que funciona. Analisamos métricas e retornos para identificar oportunidades, otimizar investimentos e direcionar recursos às estratégias com maior potencial de gerar resultados.</p><div className="method-detail__closing"><span>Escala</span><strong>Menos desperdício. Mais inteligência para crescer.</strong></div></div>
+      <div className="method-detail__content"><Eyebrow>03 / ESCALA</Eyebrow><h2>Crescer não é apenas investir mais, mas <em>potencializar o que funciona.</em></h2><p>Analisamos métricas e retornos para identificar oportunidades, otimizar investimentos e direcionar recursos às estratégias com maior potencial de gerar resultados.</p><div className="method-detail__closing"><span>Escala</span><strong>Menos desperdício. Mais inteligência para crescer.</strong></div></div>
       <div className="method-detail__index">03 <span>/ 03</span></div>
+    </div>,
+  },
+  {
+    id: 'como-faremos', title: 'Como faremos?', tone: 'light',
+    notes: 'Use esta lâmina como uma pausa visual para abrir o próximo bloco da apresentação.',
+    render: () => <div className="presentation how-we-do"><div className="how-we-do__copy"><h1>COMO FAREMOS?</h1><p>Da estratégia à execução. Da execução ao crescimento.</p></div></div>,
+  },
+  {
+    id: 'etapa-estrategia', title: 'Estratégia — Diagnóstico e planejamento', tone: 'dark',
+    notes: 'Apresente a primeira etapa como o momento de diagnóstico, definição de prioridades e construção do roadmap estratégico.',
+    render: () => <StageSlide
+      number="01"
+      title="Estratégia"
+      subtitle="Diagnóstico e planejamento"
+      background={assets.horse}
+      alt="Peça de cavalo roxa representando estratégia e tomada de decisão"
+      lightBackground
+      containBackground
+      paragraphs={[
+        'Começamos com um onboarding estratégico para entender profundamente o seu negócio, seus objetivos comerciais, seu público ideal, seus indicadores atuais e as principais oportunidades de crescimento.',
+        'Com base nesse diagnóstico, desenvolvemos um roadmap estratégico personalizado, com prioridades, ações e direcionamentos claros, apresentado visualmente para alinhar o planejamento antes de iniciar a execução.',
+      ]}
+    />,
+  },
+  {
+    id: 'etapa-estrutura', title: 'Estrutura — Implementação e execução', tone: 'dark',
+    notes: 'Mostre como o planejamento se transforma em operação integrada, conectando conteúdo, mídia, creators, lojas e canais de venda.',
+    render: () => <StageSlide
+      number="02"
+      title="Estrutura"
+      subtitle="Implementação e execução"
+      background={assets.estrutura}
+      alt="Estrutura roxa em camadas representando uma operação integrada"
+      lightBackground
+      paragraphs={[
+        'Com o planejamento definido, nossa equipe entra em ação para construir a estrutura necessária para atrair, converter e conquistar clientes.',
+        'Conectamos sua marca a creators e coordenamos toda a produção de conteúdos UGC, da roteirização à edição. Estruturamos campanhas de tráfego pago (Ads) nas principais plataformas (Meta, TikTok, Google e Mercado Ads (Meli)), de acordo com as necessidades do seu negócio.',
+        'Também implementamos lojas virtuais, páginas de vendas e Grupos de Vendas, conectando os diferentes canais de aquisição em uma operação integrada.',
+      ]}
+    />,
+  },
+  {
+    id: 'etapa-escala', title: 'Escala — Gestão e otimização contínua', tone: 'dark',
+    notes: 'Feche as etapas mostrando que a operação evolui com acompanhamento, dados, otimização e decisões recorrentes de crescimento.',
+    render: () => <StageSlide
+      number="03"
+      title="Escala"
+      subtitle="Gestão e otimização contínua"
+      background={assets.sobe}
+      alt="Gráfico roxo de crescimento com barras e seta ascendente"
+      lightBackground
+      paragraphs={[
+        'Acompanhamos os indicadores, analisamos os resultados e identificamos oportunidades para aprimorar continuamente a operação.',
+        'Otimizamos campanhas, potencializamos as estratégias que demonstram melhor desempenho e direcionamos os investimentos com base nos dados. Tudo isso com reuniões periódicas de acompanhamento, alinhamento de prioridades e definição dos próximos passos para evoluir os resultados.',
+      ]}
+      closing="Menos desperdício. Mais inteligência para crescer."
+    />,
+  },
+  {
+    id: 'equipe-multidisciplinar', title: 'Equipe multidisciplinar', tone: 'dark',
+    notes: 'Apresente a parceria como uma operação completa, com especialistas diferentes trabalhando de forma integrada para o mesmo objetivo de crescimento.',
+    render: () => <div className="presentation multidisciplinary-slide">
+      <div className="multidisciplinary-slide__copy">
+        <h1>Uma equipe multidisciplinar de especialistas trabalhando para o seu negócio por meio de uma única parceria!</h1>
+        <p>Gerente de projeto, Estrategista, Gestores de tráfego pago, Time de design, Editores de vídeo, creators Reais, Desenvolvedores de Sites e sucesso do cliente (CS).</p>
+      </div>
     </div>,
   },
 ];
@@ -82,10 +179,12 @@ export const presentationSlides: SlideDefinition[] = [
     render: () => <div className="presentation slide-about slide-about--hero">
       <div className="slide-about__background"><img src={assets.mockupStores} alt="Vitrines digitais em diferentes lojas e celulares" /></div>
       <Top label="VOW DIGITAL / SOBRE NÓS" />
-      <div className="slide-about__hero-copy"><Eyebrow>Sobre nós</Eyebrow><h2>Conectamos as peças<br />que fazem uma empresa <em>crescer.</em></h2><p>A Vow Digital une marketing, tecnologia e estratégia comercial para ajudar empresas a vender mais e crescer com consistência.</p><div className="slide-about__hero-stats"><div><strong>+500</strong><span>Negócios acelerados</span></div><div><strong>+7 anos</strong><span>De atuação</span></div></div><div className="slide-about__hero-partners-highlight"><strong>Estamos entre os 3% de empresas reconhecidas por Google e Meta.</strong><div><img src={assets.googlePartners} alt="Google Partners" /><img src={assets.metaBusiness} alt="Meta Business Partner" /></div></div></div>
+      <div className="slide-about__hero-copy"><Eyebrow>Sobre nós</Eyebrow><h2>Conectamos as peças<br />que fazem uma empresa <em>crescer.</em></h2><p>A Vow Digital une marketing, tecnologia e estratégia comercial para ajudar empresas a vender mais e crescer com consistência.</p><div className="slide-about__hero-stats"><div><strong>+500</strong><span>Negócios acelerados</span></div><div><strong>+7 anos</strong><span>De atuação</span></div></div><div className="slide-about__hero-partners-highlight"><strong>Somos certificados por gigantes da tecnologia e publicidade, como Google e Meta, representando apenas 3% das empresas reconhecidas no Brasil.</strong><div><img src={assets.googlePartners} alt="Google Partners" /><img src={assets.metaBusiness} alt="Meta Business Partner" /></div></div></div>
       <div className="slide-about__hero-footer"><span>ESTRATÉGIA · CONTEÚDO · CRESCIMENTO</span></div>
     </div>,
   },
+  errosCarousel,
+  precoContinuar,
   ...methodSlides,
   {
     id: 'oportunidade', title: 'Anúncios UGC', tone: 'light',
@@ -111,7 +210,7 @@ export const presentationSlides: SlideDefinition[] = [
     id: 'ecommerce', title: 'E-commerce, sites e páginas de vendas', tone: 'light',
     notes: 'Apresente os projetos digitais como estruturas pensadas para atrair, envolver e converter, aproveitando melhor cada oportunidade gerada pelo tráfego.',
     render: () => <div className="presentation slide-ecommerce">
-      <div className="slide-traffic__video" aria-hidden="true"><video src={assets.ugcBruno} poster={image('ugc-bruno-poster.jpg')} autoPlay muted loop playsInline preload="metadata" /></div>
+      <div className="slide-traffic__video" aria-hidden="true"><video src={assets.ugcBruno} poster={image('ugc-bruno-poster.jpg')} autoPlay muted loop playsInline preload="metadata" onLoadedMetadata={(event) => { event.currentTarget.currentTime = 5; }} /></div>
       <Top label="SERVIÇOS / 03 DE 04" />
       <div className="slide-ecommerce__copy"><Eyebrow>03 / 04</Eyebrow><h2>E-commerce, sites<br />e páginas de <em>vendas.</em></h2><p>Projetos desenvolvidos para atrair, envolver e converter, com estrutura otimizada para aproveitar ao máximo cada oportunidade gerada pelo tráfego.</p></div>
       <div className="slide-ecommerce__footer"><strong>Estrutura que transforma tráfego em oportunidade.</strong><span>ATRAIR · ENVOLVER · CONVERTER</span></div>
