@@ -7,7 +7,7 @@ const plans = [
   {
     id: 'valores',
     name: 'Start',
-    number: '01',
+    number: '03',
     price: 'R$ 2.797,00',
     installments: '6× R$ 2.700 no cartão sem juros',
     cash: 'R$ 15.000 à vista',
@@ -24,7 +24,7 @@ const plans = [
   {
     id: 'plano-grow',
     name: 'Grow',
-    number: '02',
+    number: '01',
     price: 'R$ 3.497,00',
     installments: '6× R$ 3.500 no cartão sem juros',
     cash: 'R$ 19.000 à vista',
@@ -43,7 +43,7 @@ const plans = [
   {
     id: 'plano-pro',
     name: 'Pro',
-    number: '03',
+    number: '01',
     price: 'R$ 5.497,00',
     installments: '6× R$ 5.500 no cartão sem juros',
     cash: 'R$ 28.900 à vista',

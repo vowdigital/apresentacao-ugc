@@ -144,19 +144,19 @@ button {
 
 .deck__slide-layer--enter {
   z-index: 2;
-  animation: slide-enter-forward 480ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: slide-enter-forward 1000ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
 }
 
 .deck__slide-layer--leave {
   z-index: 1;
   pointer-events: none;
-  animation: slide-exit-forward 480ms cubic-bezier(0.4, 0, 1, 1) both;
+  animation: slide-exit-forward 1000ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
 @keyframes slide-enter-forward {
   from {
     opacity: 0;
-    transform: translateX(34px) scale(0.99);
+    transform: translateX(24px) scale(0.995);
   }
   to {
     opacity: 1;
@@ -171,7 +171,7 @@ button {
   }
   to {
     opacity: 0;
-    transform: translateX(-26px) scale(0.99);
+    transform: translateX(-18px) scale(0.995);
   }
 }
 
@@ -186,7 +186,7 @@ button {
 @keyframes slide-enter-backward {
   from {
     opacity: 0;
-    transform: translateX(-34px) scale(0.99);
+    transform: translateX(-24px) scale(0.995);
   }
   to {
     opacity: 1;
@@ -201,7 +201,7 @@ button {
   }
   to {
     opacity: 0;
-    transform: translateX(26px) scale(0.99);
+    transform: translateX(18px) scale(0.995);
   }
 }
 
@@ -223,7 +223,7 @@ button {
     .icon-row
   ) {
   opacity: 0;
-  animation: text-fade-in 560ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: text-fade-in 760ms cubic-bezier(0.22, 0.8, 0.2, 1) both;
 }
 
 .deck__slide-layer--leave .slide :where(
@@ -242,7 +242,7 @@ button {
     .stat,
     .icon-row
   ) {
-  animation: text-fade-out 260ms cubic-bezier(0.4, 0, 1, 1) both;
+    animation: text-fade-out 420ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
 .deck__slide-layer--enter .slide :where(p, h3, li, .pill, .stat, .icon-row) {

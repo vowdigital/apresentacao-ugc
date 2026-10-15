@@ -106,7 +106,11 @@ function ErrorsCarousel() {
           <h2>{activeError.title}</h2>
           <p className="errors-carousel__subtitle">{activeError.subtitle}</p>
           <div className="errors-carousel__body">
-            {activeError.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {activeError.paragraphs.map((paragraph, index) => (
+              <p className={index === 1 ? 'errors-carousel__highlight' : undefined} key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
           </div>
         </article>
       </div>

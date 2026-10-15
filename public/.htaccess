@@ -1,6 +1,6 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /apresentacao-ugc/
+  RewriteBase /apresentacao-vow-digital/
 
   # Mantém o acesso direto a arquivos e diretórios existentes.
   RewriteCond %{REQUEST_FILENAME} -f [OR]

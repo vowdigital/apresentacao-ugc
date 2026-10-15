@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import type { SlideDefinition } from '../deck/types';
 import { assets } from '../deck/assets';
 import { planoStart, planoGrow, planoPro } from './Valores';
@@ -22,10 +22,27 @@ type StageSlideProps = {
   number: string;
   title: string;
   subtitle: string;
-  paragraphs: string[];
+  paragraphs: ReactNode[];
   closing?: string;
   lightBackground?: boolean;
 };
+
+function StageParagraph({ paragraph }: { paragraph: ReactNode }) {
+  if (typeof paragraph !== 'string') return <p>{paragraph}</p>;
+  const phrase = 'Meta, TikTok, Google e Mercado Ads (Meli)';
+  const parts = paragraph.split(phrase);
+
+  return (
+    <p>
+      {parts.map((part, index) => (
+        <Fragment key={`${part}-${index}`}>
+          {part}
+          {index < parts.length - 1 && <mark className="presentation-highlight">{phrase}</mark>}
+        </Fragment>
+      ))}
+    </p>
+  );
+}
 
 function StageSlide({ number, title, subtitle, paragraphs, closing, lightBackground = false }: StageSlideProps) {
   return (
@@ -36,7 +53,7 @@ function StageSlide({ number, title, subtitle, paragraphs, closing, lightBackgro
         <h2>{title}</h2>
         <p className="stage-slide__subtitle">{subtitle}</p>
         <div className="stage-slide__body">
-          {paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          {paragraphs.map((paragraph, index) => <StageParagraph key={index} paragraph={paragraph} />)}
         </div>
         {closing && <p className="stage-slide__closing">{closing}</p>}
       </div>
@@ -44,7 +61,7 @@ function StageSlide({ number, title, subtitle, paragraphs, closing, lightBackgro
   );
 }
 
-const planSlides: SlideDefinition[] = [planoStart, planoGrow, planoPro].map((slide) => ({
+const planSlides: SlideDefinition[] = [planoPro, planoGrow, planoStart].map((slide) => ({
   ...slide,
   footer: false,
 }));
@@ -93,7 +110,7 @@ const methodSlides: SlideDefinition[] = [
   {
     id: 'como-faremos', title: 'Como faremos?', tone: 'light',
     notes: 'Use esta lâmina como uma pausa visual para abrir o próximo bloco da apresentação.',
-    render: () => <div className="presentation how-we-do"><div className="how-we-do__copy"><h1>COMO FAREMOS?</h1><p>Da estratégia à execução. Da execução ao crescimento.</p></div></div>,
+    render: () => <div className="presentation how-we-do"><div className="how-we-do__copy"><h1>COMO FAREMOS?</h1><p>Da estratégia à <span className="presentation-highlight-green">execução</span>. Da <span className="presentation-highlight-green">execução</span> ao <span className="presentation-highlight-green">crescimento</span>.</p></div></div>,
   },
   {
     id: 'etapa-estrategia', title: 'Estratégia — Diagnóstico e planejamento', tone: 'dark',
@@ -136,7 +153,6 @@ const methodSlides: SlideDefinition[] = [
         'Acompanhamos os indicadores, analisamos os resultados e identificamos oportunidades para aprimorar continuamente a operação.',
         'Otimizamos campanhas, potencializamos as estratégias que demonstram melhor desempenho e direcionamos os investimentos com base nos dados. Tudo isso com reuniões periódicas de acompanhamento, alinhamento de prioridades e definição dos próximos passos para evoluir os resultados.',
       ]}
-      closing="Menos desperdício. Mais inteligência para crescer."
     />,
   },
   {

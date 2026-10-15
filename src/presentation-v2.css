@@ -2,6 +2,11 @@
 
 :root{--ink:#17111e;--purple:#6723b8;--violet:#4b158d;--paper:#fff;--muted:#625b68;--line:#e9e1ef;--display:'Space Grotesk',Arial,sans-serif;--body:'DM Sans',Arial,sans-serif}
 *,*::before,*::after{box-sizing:border-box}
+.presentation-highlight,.method-detail__closing strong,.stage-slide__closing,.multidisciplinary-slide__copy p,.errors-carousel__highlight{background:#edf569;color:inherit;margin-left:-.22em;padding:.08em .16em .08em .52em;clip-path:polygon(1% 0,98% 0,100% 7%,98% 14%,100% 21%,98% 29%,100% 36%,98% 44%,100% 52%,98% 60%,100% 68%,98% 76%,100% 84%,98% 92%,99% 100%,2% 100%,0 93%,2% 85%,0 77%,2% 69%,0 61%,2% 53%,0 45%,2% 37%,0 29%,2% 21%,0 13%,2% 6%);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.presentation-highlight{margin-left:0;padding:.02em .06em;clip-path:none}
+.method-detail__closing strong,.stage-slide__closing{color:#111114}
+.multidisciplinary-slide__copy p{color:#000 !important}
+.presentation-highlight-green,.slide-closing__copy h2 em,.slide-final__copy h2 em{color:#b8ef4f!important}
 #root .method-detail__content{padding:37px 0 36px;border:0;border-radius:0;background:transparent;box-shadow:none}
 .slide-about__hero-partners{display:flex;align-items:center;gap:22px}.slide-about__hero-partners>span{font-size:15px;letter-spacing:.08em;text-transform:uppercase}.slide-about__hero-partners img{display:block;height:40px;width:auto;object-fit:contain}.slide-about__hero-partners img:first-of-type{width:102px}.slide-about__hero-partners img:last-of-type{width:126px}
 .slide-about__hero-copy>p em{font-style:normal;color:var(--purple);font-weight:800}

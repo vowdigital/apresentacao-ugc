@@ -201,6 +201,11 @@
   font-weight: 700;
 }
 
+.errors-carousel__highlight {
+  padding: 10px 14px 10px 32px;
+  background: #edf569;
+}
+
 .errors-carousel__actions {
   position: absolute;
   z-index: 5;

@@ -39,7 +39,7 @@ function SlideTransition({
     currentRef.current = { slide, number };
     setLeaving(previous);
     const isPlanWelcome = previous.slide.id === 'fechamento' && slide.id === 'valores';
-    const timeout = window.setTimeout(() => setLeaving(null), isPlanWelcome ? 760 : 480);
+    const timeout = window.setTimeout(() => setLeaving(null), isPlanWelcome ? 1200 : 1100);
     return () => window.clearTimeout(timeout);
   }, [slide, number]);
 
